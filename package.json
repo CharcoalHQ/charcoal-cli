@@ -1,0 +1,26 @@
+{
+  "name": "@charcoal/cli",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "bin": {
+    "charcoal": "./src/index.ts"
+  },
+  "scripts": {
+    "dev": "tsx src/index.ts",
+    "typecheck": "tsc --noEmit",
+    "compile": "bun build src/index.ts --compile --outfile charcoal"
+  },
+  "dependencies": {
+    "@inquirer/prompts": "^7.5.3",
+    "open": "^10.1.2",
+    "yargs": "^18.0.0"
+  },
+  "devDependencies": {
+    "@tsconfig/node24": "^24.0.0",
+    "@types/node": "^22.0.0",
+    "@types/yargs": "^17.0.35",
+    "tsx": "^4.21.0",
+    "typescript": "^5.7.0"
+  }
+}
