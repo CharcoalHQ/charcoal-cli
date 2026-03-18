@@ -26,6 +26,7 @@ const CLI_KEY_NAME = 'Charcoal CLI';
 
 interface LoginArgs {
   org?: string;
+  apiKey?: string;
 }
 
 const command: CommandModule<object, LoginArgs> = {
@@ -36,8 +37,33 @@ const command: CommandModule<object, LoginArgs> = {
       type: 'string',
       describe: 'Organization ID to log in to directly',
     },
+    'api-key': {
+      type: 'string',
+      describe: 'API key for headless/CI authentication (skips browser login)',
+    },
   },
   handler: async (argv) => {
+    if (argv.apiKey) {
+      const client = createApiClient(() => argv.apiKey!);
+      const { organizationId, organizationName } = await client.get<{
+        organizationId: string;
+        organizationName: string;
+      }>('/v1/whoami');
+
+      const creds: Credentials = {
+        activeOrganizationId: organizationId,
+        organizations: {
+          [organizationId]: {
+            apiKey: argv.apiKey,
+            organizationName,
+          },
+        },
+      };
+
+      saveCredentials(creds);
+      console.log('Login complete.');
+      return;
+    }
     const result = await performOAuthLogin();
     console.log(`Authenticated as ${result.user.email}`);
 

@@ -8,7 +8,10 @@ const command: CommandModule = {
   handler: () => {
     const creds = requireCredentials();
     const org = getActiveOrg(creds);
-    console.log(`User:         ${creds.user.email} (${creds.user.id})`);
+    const userDisplay = creds.user
+      ? `${creds.user.email} (${creds.user.id})`
+      : '(not available)';
+    console.log(`User:         ${userDisplay}`);
     console.log(`Organization: ${org.organizationName} (${org.id})`);
     const keyDisplay = org.apiKeyPrefix && org.apiKeySuffix
       ? `${org.apiKeyPrefix}...${org.apiKeySuffix}`

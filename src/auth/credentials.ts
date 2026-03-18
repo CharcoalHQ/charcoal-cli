@@ -11,8 +11,8 @@ export interface OrgCredentials {
 }
 
 export interface Credentials {
-  user: { id: string; email: string };
-  refreshToken: string;
+  user?: { id: string; email: string };
+  refreshToken?: string;
   activeOrganizationId: string;
   organizations: Record<string, OrgCredentials>;
 }

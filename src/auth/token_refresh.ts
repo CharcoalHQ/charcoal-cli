@@ -38,6 +38,12 @@ export async function getOrgScopedToken(
     throw new Error('Not logged in. Run `charcoal login` first.');
   }
 
+  if (!creds.refreshToken) {
+    throw new Error(
+      'This command requires browser authentication. Run `charcoal login` (without --api-key).'
+    );
+  }
+
   const data = await exchangeRefreshToken(creds.refreshToken, organizationId).catch(
     async () => {
       console.log('Session expired, re-authenticating...');
