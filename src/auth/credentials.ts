@@ -57,9 +57,6 @@ export function getActiveOrg(creds: Credentials): OrgCredentials & { id: string 
   return { ...org, id: creds.activeOrganizationId };
 }
 
-export function getApiKey(creds: Credentials, override?: string): string {
-  if (override) return override;
-  const envKey = process.env.CHARCOAL_API_KEY;
-  if (envKey) return envKey;
-  return getActiveOrg(creds).apiKey;
+export function getApiKey(): string {
+  return getActiveOrg(requireCredentials()).apiKey;
 }

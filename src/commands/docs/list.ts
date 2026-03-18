@@ -1,12 +1,11 @@
 import type { CommandModule } from 'yargs';
 
 import { createApiClient } from '../../api/client.js';
-import { getApiKey, requireCredentials } from '../../auth/credentials.js';
+import { getApiKey } from '../../auth/credentials.js';
 import { outputJson, outputTable } from '../../output.js';
 
 interface ListDocsArgs {
   namespace: string;
-  'api-key'?: string;
   json?: boolean;
   limit?: number;
   offset?: number;
@@ -20,10 +19,6 @@ const command: CommandModule<object, ListDocsArgs> = {
       type: 'string',
       describe: 'Namespace name',
       demandOption: true,
-    },
-    'api-key': {
-      type: 'string',
-      describe: 'API key (overrides stored key)',
     },
     json: {
       type: 'boolean',
@@ -42,7 +37,7 @@ const command: CommandModule<object, ListDocsArgs> = {
     },
   },
   handler: async (argv) => {
-    const apiKey = getApiKey(requireCredentials(), argv['api-key']);
+    const apiKey = getApiKey();
     const client = createApiClient(() => apiKey);
     const { results } = await client.get<{ results: Record<string, unknown>[] }>(
       `/v1/namespaces/${encodeURIComponent(argv.namespace)}/documents`

@@ -4,12 +4,12 @@ import path from 'node:path';
 import type { CommandModule } from 'yargs';
 
 import { createApiClient } from '../../api/client.js';
-import { getApiKey, requireCredentials } from '../../auth/credentials.js';
+import { getApiKey } from '../../auth/credentials.js';
 
 interface UploadArgs {
   namespace: string;
   dir: string;
-  'api-key'?: string;
+  'schema-path'?: string;
 }
 
 const BATCH_SIZE = 1000;
@@ -28,15 +28,20 @@ const command: CommandModule<object, UploadArgs> = {
       describe: 'Directory containing JSON files',
       demandOption: true,
     },
-    'api-key': {
+    'schema-path': {
       type: 'string',
-      describe: 'API key (overrides stored key)',
+      describe: 'Path to a JSON file defining the namespace attribute schema',
     },
   },
   handler: async (argv) => {
-    const apiKey = getApiKey(requireCredentials(), argv['api-key']);
+    const apiKey = getApiKey();
     const client = createApiClient(() => apiKey);
     const dir = path.resolve(argv.dir);
+
+    let schema: Record<string, unknown> | undefined;
+    if (argv['schema-path']) {
+      schema = JSON.parse(fs.readFileSync(path.resolve(argv['schema-path']), 'utf-8'));
+    }
 
     const files = fs.readdirSync(dir).filter((f) => f.endsWith('.json'));
     if (files.length === 0) {
@@ -65,7 +70,7 @@ const command: CommandModule<object, UploadArgs> = {
       process.stdout.write(`Uploading batch ${batchNum}/${totalBatches}...`);
       const result = await client.post<{ documents_upserted: number }>(
         `/v1/namespaces/${encodeURIComponent(argv.namespace)}/documents`,
-        { documents: batch }
+        { documents: batch, ...(schema !== undefined && { schema }) }
       );
       totalUpserted += result.documents_upserted;
       console.log(` ${result.documents_upserted} upserted.`);

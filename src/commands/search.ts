@@ -1,13 +1,12 @@
 import type { CommandModule } from 'yargs';
 
 import { createApiClient } from '../api/client.js';
-import { getApiKey, requireCredentials } from '../auth/credentials.js';
+import { getApiKey } from '../auth/credentials.js';
 
 interface SearchArgs {
   namespace: string;
   query: string;
   goal: string;
-  'api-key'?: string;
   json?: boolean;
 }
 
@@ -45,10 +44,6 @@ const command: CommandModule<object, SearchArgs> = {
       describe: 'Search query',
       demandOption: true,
     },
-    'api-key': {
-      type: 'string',
-      describe: 'API key (overrides stored key)',
-    },
     json: {
       type: 'boolean',
       describe: 'Output raw JSON instead of formatted text',
@@ -56,7 +51,7 @@ const command: CommandModule<object, SearchArgs> = {
     },
   },
   handler: async (argv) => {
-    const apiKey = getApiKey(requireCredentials(), argv['api-key']);
+    const apiKey = getApiKey();
     const client = createApiClient(() => apiKey);
     const ns = encodeURIComponent(argv.namespace);
 
