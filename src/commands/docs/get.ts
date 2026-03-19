@@ -27,15 +27,9 @@ const command: CommandModule<object, GetDocArgs> = {
   handler: async (argv) => {
     const apiKey = getApiKey();
     const client = createApiClient(() => apiKey);
-    const { results } = await client.get<{ results: Record<string, unknown>[] }>(
-      `/v1/namespaces/${encodeURIComponent(argv.namespace)}/documents`
+    const doc = await client.get<Record<string, unknown>>(
+      `/v1/namespaces/${encodeURIComponent(argv.namespace)}/documents/${encodeURIComponent(argv.id)}`
     );
-
-    const doc = results.find((d) => d.id === argv.id);
-    if (!doc) {
-      throw new Error(`Document ${argv.id} not found in namespace ${argv.namespace}`);
-    }
-
     outputJson(doc);
   },
 };

@@ -13,7 +13,6 @@ import keysList from './commands/keys/list.js';
 import keysDelete from './commands/keys/delete.js';
 import keysSet from './commands/keys/set.js';
 import docsUpload from './commands/docs/upload.js';
-import docsList from './commands/docs/list.js';
 import docsGet from './commands/docs/get.js';
 import search from './commands/search.js';
 import namespacesListCommand from './commands/namespaces.js';
@@ -43,7 +42,6 @@ try {
     .command('docs', 'Manage documents', (yargs) =>
       yargs
         .command(docsUpload)
-        .command(docsList)
         .command(docsGet)
         .demandCommand(1, 'Please specify a docs subcommand')
     )
