@@ -34,14 +34,14 @@ const command: CommandModule<object, SearchArgs> = {
       describe: 'Namespace to search',
       demandOption: true,
     },
-    goal: {
+    objective: {
       type: 'string',
-      describe: 'High-level goal for the search',
+      describe: 'One sentence describing what you are looking for',
       demandOption: true,
     },
-    query: {
+    context: {
       type: 'string',
-      describe: 'Search query',
+      describe: 'Detailed natural language search request',
       demandOption: true,
     },
     json: {
@@ -56,8 +56,8 @@ const command: CommandModule<object, SearchArgs> = {
     const ns = encodeURIComponent(argv.namespace);
 
     const body = {
-      high_level_goal: argv.goal,
-      search_query: argv.query,
+      objective: argv.objective,
+      context: argv.context,
       stream: true,
     };
 
