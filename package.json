@@ -1,11 +1,13 @@
 {
-  "name": "@charcoal/cli",
-  "version": "0.0.1",
-  "private": true,
+  "name": "@charcoalhq/cli",
+  "version": "0.0.2",
   "type": "module",
   "bin": {
     "charcoal": "./src/index.ts"
   },
+  "files": [
+    "src"
+  ],
   "scripts": {
     "dev": "tsx src/index.ts",
     "typecheck": "tsc --noEmit",
@@ -14,13 +16,13 @@
   "dependencies": {
     "@inquirer/prompts": "^7.5.3",
     "open": "^10.1.2",
+    "tsx": "^4.21.0",
     "yargs": "^18.0.0"
   },
   "devDependencies": {
     "@tsconfig/node24": "^24.0.0",
     "@types/node": "^22.0.0",
     "@types/yargs": "^17.0.35",
-    "tsx": "^4.21.0",
     "typescript": "^5.7.0"
   }
 }
