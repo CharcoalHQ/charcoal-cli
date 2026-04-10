@@ -4,7 +4,7 @@ export const API_BASE_URL =
   process.env.CHARCOAL_API_URL ?? "https://api.withcharcoal.com";
 
 export const WORKOS_CLIENT_ID =
-  process.env.CHARCOAL_WORKOS_CLIENT_ID ?? "client_01KKMT5J1EGSS2W5V5SC2C9ZZN";
+  process.env.CHARCOAL_WORKOS_CLIENT_ID ?? "client_01KKMT5JMCT6958S74G9GE372Q";
 
 export const WORKOS_BASE_URL = "https://api.workos.com";
 
