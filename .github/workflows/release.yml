@@ -16,6 +16,9 @@ jobs:
       id-token: write
       contents: write
       pull-requests: write
+    outputs:
+      published: ${{ steps.changesets.outputs.published }}
+      publishedPackages: ${{ steps.changesets.outputs.publishedPackages }}
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v4
@@ -42,3 +45,38 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_CONFIG_PROVENANCE: true
+
+  build-binaries:
+    name: Build ${{ matrix.artifact }}
+    needs: release
+    if: needs.release.outputs.published == 'true'
+    strategy:
+      matrix:
+        include:
+          - os: ubuntu-latest
+            target: bun-linux-x64
+            artifact: charcoal-linux-x64
+          - os: ubuntu-latest
+            target: bun-linux-arm64
+            artifact: charcoal-linux-arm64
+          - os: macos-latest
+            target: bun-darwin-arm64
+            artifact: charcoal-darwin-arm64
+          - os: macos-latest
+            target: bun-darwin-x64
+            artifact: charcoal-darwin-x64
+    runs-on: ${{ matrix.os }}
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+
+      - name: Build binary
+        run: bun build src/index.ts --compile --target=${{ matrix.target }} --outfile ${{ matrix.artifact }}
+
+      - name: Upload to release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v${{ fromJson(needs.release.outputs.publishedPackages)[0].version }}
+          files: ${{ matrix.artifact }}
