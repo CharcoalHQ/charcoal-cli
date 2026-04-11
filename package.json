@@ -1,6 +1,6 @@
 {
   "name": "@charcoalhq/cli",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "Command-line interface for Charcoal — manage organizations, API keys, documents, and namespaces, and search your content from the terminal.",
   "license": "MIT",
   "type": "module",
