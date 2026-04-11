@@ -13,9 +13,13 @@
     "build": "bun build src/index.ts --target=node --outfile dist/index.js --banner '#!/usr/bin/env node'",
     "prepublishOnly": "bun run build",
     "typecheck": "tsc --noEmit",
-    "compile": "bun build src/index.ts --compile --outfile charcoal"
+    "compile": "bun build src/index.ts --compile --outfile charcoal",
+    "changeset": "changeset",
+    "version": "changeset version",
+    "release": "bun run build && changeset publish"
   },
   "devDependencies": {
+    "@changesets/cli": "^2.27.0",
     "@inquirer/prompts": "^7.5.3",
     "@tsconfig/node24": "^24.0.0",
     "@types/node": "^22.0.0",
