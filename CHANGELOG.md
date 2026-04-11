@@ -1,5 +1,11 @@
 # @charcoalhq/cli
 
+## 0.0.7
+
+### Patch Changes
+
+- c2bcbda: Install dependencies in the `build-binaries` job before running `bun build --compile`. Without this, the compile step fails with `Could not resolve: "yargs"` because `node_modules/` doesn't exist on a fresh runner.
+
 ## 0.0.6
 
 ### Patch Changes
