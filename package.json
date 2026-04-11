@@ -1,14 +1,25 @@
 {
   "name": "@charcoalhq/cli",
   "version": "0.0.3",
+  "description": "Command-line interface for Charcoal — manage organizations, API keys, documents, and namespaces, and search your content from the terminal.",
   "license": "MIT",
   "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CharcoalHQ/charcoal-cli.git"
+  },
   "bin": {
     "charcoal": "./dist/index.js"
   },
   "files": [
     "dist"
   ],
+  "engines": {
+    "node": ">=20"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "dev": "tsx src/index.ts",
     "build": "bun build src/index.ts --target=node --outfile dist/index.js --banner '#!/usr/bin/env node'",
@@ -16,7 +27,6 @@
     "typecheck": "tsc --noEmit",
     "compile": "bun build src/index.ts --compile --outfile charcoal",
     "changeset": "changeset",
-    "version": "changeset version",
     "release": "bun run build && changeset publish"
   },
   "devDependencies": {
