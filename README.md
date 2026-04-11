@@ -4,8 +4,6 @@ Command-line interface for [Charcoal](https://withcharcoal.com) — manage organ
 
 ## Installation
 
-### npm (recommended)
-
 ```sh
 npm install -g @charcoalhq/cli
 ```
@@ -13,19 +11,6 @@ npm install -g @charcoalhq/cli
 Also works with `pnpm add -g`, `yarn global add`, or `bun add -g`. Any of these give you a `charcoal` command on your `$PATH`.
 
 Requires Node.js 20 or later.
-
-### Standalone binary
-
-If you don't have Node installed, grab a prebuilt binary from the [latest release](https://github.com/CharcoalHQ/charcoal-cli/releases/latest):
-
-```sh
-# macOS (Apple Silicon)
-curl -fsSL https://github.com/CharcoalHQ/charcoal-cli/releases/latest/download/charcoal-darwin-arm64 -o charcoal
-chmod +x charcoal
-sudo mv charcoal /usr/local/bin/
-```
-
-Binaries are available for `darwin-arm64`, `darwin-x64`, `linux-x64`, and `linux-arm64`.
 
 ## Getting started
 

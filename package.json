@@ -25,7 +25,6 @@
     "build": "bun build src/index.ts --target=node --outfile dist/index.js --banner '#!/usr/bin/env node'",
     "prepublishOnly": "bun run build",
     "typecheck": "tsc --noEmit",
-    "compile": "bun build src/index.ts --compile --outfile charcoal",
     "changeset": "changeset",
     "release": "bun run build && changeset publish"
   },
