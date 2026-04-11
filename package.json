@@ -9,7 +9,7 @@
     "url": "git+https://github.com/CharcoalHQ/charcoal-cli.git"
   },
   "bin": {
-    "charcoal": "./dist/index.js"
+    "charcoal": "dist/index.js"
   },
   "files": [
     "dist"
