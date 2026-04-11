@@ -5,13 +5,13 @@ import { requireCredentials } from '../../auth/credentials.js';
 import { getOrgScopedToken } from '../../auth/token_refresh.js';
 
 interface ApiKeyCreateResponse {
-  apiKey: {
+  api_key: {
     id: number;
     name: string;
-    keyPrefix: string;
-    keySuffix: string;
+    key_prefix: string;
+    key_suffix: string;
   };
-  rawKey: string;
+  raw_key: string;
 }
 
 interface CreateKeyArgs {
@@ -44,8 +44,8 @@ const command: CommandModule<object, CreateKeyArgs> = {
     const client = createApiClient(() => accessToken);
     const created = await client.post<ApiKeyCreateResponse>('/v1/api_keys', { name });
 
-    console.log(`Created API key: ${created.apiKey.name}`);
-    console.log(`Key: ${created.rawKey}`);
+    console.log(`Created API key: ${created.api_key.name}`);
+    console.log(`Key: ${created.raw_key}`);
     console.log('\nThis key will not be shown again. Store it securely.');
   },
 };

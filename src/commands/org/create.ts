@@ -7,13 +7,13 @@ import { getOrgScopedToken } from '../../auth/token_refresh.js';
 interface ApiKey {
   id: number;
   name: string;
-  keyPrefix: string;
-  keySuffix: string;
+  key_prefix: string;
+  key_suffix: string;
 }
 
 interface ApiKeyCreateResponse {
-  apiKey: ApiKey;
-  rawKey: string;
+  api_key: ApiKey;
+  raw_key: string;
 }
 
 const CLI_KEY_NAME = 'Charcoal CLI';
@@ -60,9 +60,9 @@ const command: CommandModule<object, CreateOrgArgs> = {
     });
 
     credentials.organizations[organizationId] = {
-      apiKey: created.rawKey,
-      apiKeyPrefix: created.apiKey.keyPrefix,
-      apiKeySuffix: created.apiKey.keySuffix,
+      apiKey: created.raw_key,
+      apiKeyPrefix: created.api_key.key_prefix,
+      apiKeySuffix: created.api_key.key_suffix,
       organizationName: name,
     };
     credentials.activeOrganizationId = organizationId;

@@ -12,13 +12,13 @@ interface Organization {
 interface ApiKey {
   id: number;
   name: string;
-  keyPrefix: string;
-  keySuffix: string;
+  key_prefix: string;
+  key_suffix: string;
 }
 
 interface ApiKeyCreateResponse {
-  apiKey: ApiKey;
-  rawKey: string;
+  api_key: ApiKey;
+  raw_key: string;
 }
 
 const CLI_KEY_NAME = 'Charcoal CLI';
@@ -72,8 +72,8 @@ const command: CommandModule<object, SwitchArgs> = {
     if (!credentials.organizations[selectedOrg.id]) {
       const orgClient = createApiClient(() => orgAccessToken);
 
-      const { apiKeys } = await orgClient.get<{ apiKeys: ApiKey[] }>('/v1/api_keys');
-      const existingCliKey = apiKeys.find((k) => k.name === CLI_KEY_NAME);
+      const { api_keys } = await orgClient.get<{ api_keys: ApiKey[] }>('/v1/api_keys');
+      const existingCliKey = api_keys.find((k) => k.name === CLI_KEY_NAME);
       if (existingCliKey) {
         await orgClient.delete(`/v1/api_keys/${existingCliKey.id}`);
       }
@@ -83,9 +83,9 @@ const command: CommandModule<object, SwitchArgs> = {
       });
 
       credentials.organizations[selectedOrg.id] = {
-        apiKey: created.rawKey,
-        apiKeyPrefix: created.apiKey.keyPrefix,
-        apiKeySuffix: created.apiKey.keySuffix,
+        apiKey: created.raw_key,
+        apiKeyPrefix: created.api_key.key_prefix,
+        apiKeySuffix: created.api_key.key_suffix,
         organizationName: selectedOrg.name,
       };
     }
