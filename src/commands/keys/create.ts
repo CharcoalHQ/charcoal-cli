@@ -6,7 +6,7 @@ import { getOrgScopedToken } from '../../auth/token_refresh.js';
 
 interface ApiKeyCreateResponse {
   api_key: {
-    id: number;
+    id: string;
     name: string;
     key_prefix: string;
     key_suffix: string;

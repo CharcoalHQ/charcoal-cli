@@ -5,7 +5,7 @@ import { requireCredentials, saveCredentials } from '../../auth/credentials.js';
 import { getOrgScopedToken } from '../../auth/token_refresh.js';
 
 interface ApiKey {
-  id: number;
+  id: string;
   name: string;
   key_prefix: string;
   key_suffix: string;

@@ -10,7 +10,7 @@ interface Organization {
 }
 
 interface ApiKey {
-  id: number;
+  id: string;
   name: string;
   key_prefix: string;
   key_suffix: string;

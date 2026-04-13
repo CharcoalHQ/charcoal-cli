@@ -6,7 +6,7 @@ import { getOrgScopedToken } from '../../auth/token_refresh.js';
 import { outputTable } from '../../output.js';
 
 interface ApiKey {
-  id: number;
+  id: string;
   name: string;
   key_prefix: string;
   key_suffix: string;
@@ -32,7 +32,7 @@ const command: CommandModule = {
     outputTable(
       ['ID', 'Name', 'Prefix', 'Created By', 'Created At', 'Last Used'],
       api_keys.map((k) => [
-        String(k.id),
+        k.id,
         k.name,
         `${k.key_prefix}...${k.key_suffix}`,
         k.created_by,

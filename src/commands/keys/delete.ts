@@ -5,7 +5,7 @@ import { requireCredentials } from '../../auth/credentials.js';
 import { getOrgScopedToken } from '../../auth/token_refresh.js';
 
 interface DeleteKeyArgs {
-  id: number;
+  id: string;
 }
 
 const command: CommandModule<object, DeleteKeyArgs> = {
@@ -13,7 +13,7 @@ const command: CommandModule<object, DeleteKeyArgs> = {
   describe: 'Delete an API key',
   builder: {
     id: {
-      type: 'number',
+      type: 'string',
       describe: 'API key ID',
       demandOption: true,
     },
