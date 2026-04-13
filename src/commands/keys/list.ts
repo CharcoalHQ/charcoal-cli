@@ -6,13 +6,13 @@ import { getOrgScopedToken } from '../../auth/token_refresh.js';
 import { outputTable } from '../../output.js';
 
 interface ApiKey {
-  id: number;
+  id: string;
   name: string;
-  keyPrefix: string;
-  keySuffix: string;
-  createdBy: string;
-  createdAt: string;
-  lastUsedAt: string | null;
+  key_prefix: string;
+  key_suffix: string;
+  created_by: string;
+  created_at: string;
+  last_used_at: string | null;
 }
 
 const command: CommandModule = {
@@ -22,22 +22,22 @@ const command: CommandModule = {
     const creds = requireCredentials();
     const { accessToken } = await getOrgScopedToken(creds.activeOrganizationId);
     const client = createApiClient(() => accessToken);
-    const { apiKeys } = await client.get<{ apiKeys: ApiKey[] }>('/v1/api_keys');
+    const { api_keys } = await client.get<{ api_keys: ApiKey[] }>('/v1/api_keys');
 
-    if (apiKeys.length === 0) {
+    if (api_keys.length === 0) {
       console.log('No API keys found.');
       return;
     }
 
     outputTable(
       ['ID', 'Name', 'Prefix', 'Created By', 'Created At', 'Last Used'],
-      apiKeys.map((k) => [
-        String(k.id),
+      api_keys.map((k) => [
+        k.id,
         k.name,
-        `${k.keyPrefix}...${k.keySuffix}`,
-        k.createdBy,
-        new Date(k.createdAt).toLocaleDateString(),
-        k.lastUsedAt ? new Date(k.lastUsedAt).toLocaleDateString() : 'Never',
+        `${k.key_prefix}...${k.key_suffix}`,
+        k.created_by,
+        new Date(k.created_at).toLocaleDateString(),
+        k.last_used_at ? new Date(k.last_used_at).toLocaleDateString() : 'Never',
       ])
     );
   },

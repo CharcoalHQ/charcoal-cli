@@ -11,15 +11,15 @@ interface Organization {
 }
 
 interface ApiKey {
-  id: number;
+  id: string;
   name: string;
-  keyPrefix: string;
-  keySuffix: string;
+  key_prefix: string;
+  key_suffix: string;
 }
 
 interface ApiKeyCreateResponse {
-  apiKey: ApiKey;
-  rawKey: string;
+  api_key: ApiKey;
+  raw_key: string;
 }
 
 const CLI_KEY_NAME = 'Charcoal CLI';
@@ -138,16 +138,16 @@ const command: CommandModule<object, LoginArgs> = {
     const orgTokens = await refreshTokenForOrg(result.refreshToken, selectedOrg.id);
     creds.refreshToken = orgTokens.refreshToken;
     const orgClient = createApiClient(() => orgTokens.accessToken);
-    const { apiKeys } = await orgClient.get<{ apiKeys: ApiKey[] }>('/v1/api_keys');
+    const { api_keys } = await orgClient.get<{ api_keys: ApiKey[] }>('/v1/api_keys');
 
     // Check if the stored key still exists on the server by matching prefix + suffix.
     const storedOrg = creds.organizations[selectedOrg.id];
     const storedKeyExists = storedOrg?.apiKeyPrefix && storedOrg?.apiKeySuffix &&
-      apiKeys.some((k) => k.keyPrefix === storedOrg.apiKeyPrefix && k.keySuffix === storedOrg.apiKeySuffix);
+      api_keys.some((k) => k.key_prefix === storedOrg.apiKeyPrefix && k.key_suffix === storedOrg.apiKeySuffix);
 
     if (!storedKeyExists) {
       // Clean up any old CLI key on the server.
-      const existingCliKey = apiKeys.find((k) => k.name === CLI_KEY_NAME);
+      const existingCliKey = api_keys.find((k) => k.name === CLI_KEY_NAME);
       if (existingCliKey) {
         await orgClient.delete(`/v1/api_keys/${existingCliKey.id}`);
       }
@@ -157,9 +157,9 @@ const command: CommandModule<object, LoginArgs> = {
       });
 
       creds.organizations[selectedOrg.id] = {
-        apiKey: created.rawKey,
-        apiKeyPrefix: created.apiKey.keyPrefix,
-        apiKeySuffix: created.apiKey.keySuffix,
+        apiKey: created.raw_key,
+        apiKeyPrefix: created.api_key.key_prefix,
+        apiKeySuffix: created.api_key.key_suffix,
         organizationName: selectedOrg.name,
       };
     }

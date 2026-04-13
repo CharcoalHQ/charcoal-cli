@@ -6,7 +6,7 @@ import { getOrgScopedToken } from '../auth/token_refresh.js';
 import { outputTable } from '../output.js';
 
 interface NamespaceStats {
-  id: number;
+  id: string;
   name: string;
   document_count: number;
   storage_bytes: number;
