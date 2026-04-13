@@ -1,7 +1,12 @@
+import { createRequire } from 'node:module';
+
 import yargs from 'yargs';
 import { hideBin } from 'yargs/helpers';
 
 import login from './commands/login.js';
+
+const require = createRequire(import.meta.url);
+const { version } = require('../package.json');
 import logout from './commands/logout.js';
 import whoami from './commands/whoami.js';
 import orgList from './commands/org/list.js';
@@ -20,6 +25,7 @@ import { outputError } from './output.js';
 try {
   await yargs(hideBin(process.argv))
     .scriptName('charcoal')
+    .version(version)
     .command(login)
     .command(logout)
     .command(whoami)
