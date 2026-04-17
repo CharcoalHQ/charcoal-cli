@@ -27,7 +27,8 @@ export function loadCredentials(): Credentials | null {
 }
 
 export function saveCredentials(creds: Credentials): void {
-  fs.mkdirSync(CREDENTIALS_DIR, { recursive: true });
+  fs.mkdirSync(CREDENTIALS_DIR, { recursive: true, mode: 0o700 });
+  fs.chmodSync(CREDENTIALS_DIR, 0o700);
   const tmp = path.join(CREDENTIALS_DIR, `.credentials.tmp.${process.pid}`);
   fs.writeFileSync(tmp, JSON.stringify(creds, null, 2), { mode: 0o600 });
   fs.renameSync(tmp, CREDENTIALS_FILE);

@@ -5,8 +5,8 @@ import { getApiKey } from '../auth/credentials.js';
 
 interface SearchArgs {
   namespace: string;
-  query: string;
-  goal: string;
+  objective: string;
+  context: string;
   json?: boolean;
 }
 

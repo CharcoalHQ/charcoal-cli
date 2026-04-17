@@ -2,7 +2,7 @@ import type { CommandModule } from 'yargs';
 
 import { createApiClient } from '../../api/client.js';
 import { requireCredentials } from '../../auth/credentials.js';
-import { getOrgScopedToken } from '../../auth/token_refresh.js';
+import { getUserScopedToken } from '../../auth/token_refresh.js';
 import { outputTable } from '../../output.js';
 
 interface Organization {
@@ -15,7 +15,7 @@ const command: CommandModule = {
   describe: 'List your organizations',
   handler: async () => {
     const creds = requireCredentials();
-    const { accessToken } = await getOrgScopedToken(creds.activeOrganizationId);
+    const { accessToken } = await getUserScopedToken();
     const client = createApiClient(() => accessToken);
     const { organizations } = await client.get<{ organizations: Organization[] }>(
       '/v1/user/organizations'
