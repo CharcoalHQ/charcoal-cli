@@ -4,6 +4,7 @@ import { createApiClient } from '../api/client.js';
 import { performOAuthLogin } from '../auth/oauth.js';
 import { type Credentials, loadCredentials, saveCredentials } from '../auth/credentials.js';
 import { refreshTokenForOrg } from '../auth/token_refresh.js';
+import { CLI_KEY_NAME } from '../constants.js';
 
 interface Organization {
   id: string;
@@ -21,8 +22,6 @@ interface ApiKeyCreateResponse {
   api_key: ApiKey;
   raw_key: string;
 }
-
-const CLI_KEY_NAME = 'Charcoal CLI';
 
 interface LoginArgs {
   org?: string;
@@ -137,16 +136,21 @@ const command: CommandModule<object, LoginArgs> = {
     // Ensure a valid CLI API key exists for this org.
     const orgTokens = await refreshTokenForOrg(result.refreshToken, selectedOrg.id);
     creds.refreshToken = orgTokens.refreshToken;
+    // Persist now so a mid-flow failure doesn't strand the rotated token.
+    saveCredentials(creds);
     const orgClient = createApiClient(() => orgTokens.accessToken);
     const { api_keys } = await orgClient.get<{ api_keys: ApiKey[] }>('/v1/api_keys');
 
-    // Check if the stored key still exists on the server by matching prefix + suffix.
     const storedOrg = creds.organizations[selectedOrg.id];
-    const storedKeyExists = storedOrg?.apiKeyPrefix && storedOrg?.apiKeySuffix &&
+    // User-provided keys (via `keys set`) have no prefix/suffix — trust them
+    // and skip auto-rotation. CLI-created keys are verified against the server.
+    const canVerifyCliKey = !!(storedOrg?.apiKeyPrefix && storedOrg?.apiKeySuffix);
+    const cliKeyOnServer = canVerifyCliKey &&
       api_keys.some((k) => k.key_prefix === storedOrg.apiKeyPrefix && k.key_suffix === storedOrg.apiKeySuffix);
+    const storedKeyValid = storedOrg?.apiKey && (!canVerifyCliKey || cliKeyOnServer);
 
-    if (!storedKeyExists) {
-      // Clean up any old CLI key on the server.
+    if (!storedKeyValid) {
+      // Replace only this machine's CLI key (other hosts have distinct names).
       const existingCliKey = api_keys.find((k) => k.name === CLI_KEY_NAME);
       if (existingCliKey) {
         await orgClient.delete(`/v1/api_keys/${existingCliKey.id}`);

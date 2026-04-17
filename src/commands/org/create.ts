@@ -1,8 +1,9 @@
 import type { CommandModule } from 'yargs';
 
 import { createApiClient } from '../../api/client.js';
-import { requireCredentials, saveCredentials } from '../../auth/credentials.js';
-import { getOrgScopedToken } from '../../auth/token_refresh.js';
+import { saveCredentials } from '../../auth/credentials.js';
+import { getOrgScopedToken, getUserScopedToken } from '../../auth/token_refresh.js';
+import { CLI_KEY_NAME } from '../../constants.js';
 
 interface ApiKey {
   id: string;
@@ -15,8 +16,6 @@ interface ApiKeyCreateResponse {
   api_key: ApiKey;
   raw_key: string;
 }
-
-const CLI_KEY_NAME = 'Charcoal CLI';
 
 interface CreateOrgArgs {
   name?: string;
@@ -42,8 +41,7 @@ const command: CommandModule<object, CreateOrgArgs> = {
       }
     }
 
-    const initialCreds = requireCredentials();
-    const { accessToken } = await getOrgScopedToken(initialCreds.activeOrganizationId);
+    const { accessToken } = await getUserScopedToken();
     const userClient = createApiClient(() => accessToken);
     const { organizationId } = await userClient.post<{ organizationId: string }>(
       '/v1/onboarding/organization',

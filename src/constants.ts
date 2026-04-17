@@ -13,3 +13,5 @@ export const OAUTH_REDIRECT_PORT = 9736;
 export const CREDENTIALS_DIR = `${os.homedir()}/.charcoal`;
 
 export const CREDENTIALS_FILE = `${CREDENTIALS_DIR}/credentials.json`;
+
+export const CLI_KEY_NAME = `Charcoal CLI — ${os.hostname()}`;
