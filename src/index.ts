@@ -74,6 +74,7 @@ try {
       yargs.showHelp();
     })
     .parseAsync();
-} catch {
-  // Handled by .fail() above.
+} catch (err) {
+  outputError(err);
+  process.exit(1);
 }
