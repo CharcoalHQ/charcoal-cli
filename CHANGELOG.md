@@ -1,5 +1,15 @@
 # @charcoalhq/cli
 
+## 0.1.0
+
+### Minor Changes
+
+- 4ca2298: Add `charcoal usage list` and `charcoal usage get <request-id>` for viewing API usage events.
+
+### Patch Changes
+
+- 6fb4eae: Add `CHARCOAL_ENV=dev` to point the CLI at a local dev API with a separate credentials file. Fix command handler errors being silently swallowed instead of printed with exit 1.
+
 ## 0.0.11
 
 ### Patch Changes
