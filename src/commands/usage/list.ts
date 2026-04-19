@@ -16,7 +16,7 @@ interface UsageEventListItem {
   occurred_at: string;
   namespace: string | null;
   duration_ms: number | null;
-  search: {
+  search?: {
     request: { objective: string | null; context: string | null };
     response: { result_count: number };
   };
@@ -79,8 +79,8 @@ const command: CommandModule<object, ListArgs> = {
         e.request_id,
         e.event_type,
         e.namespace ?? '-',
-        truncate(e.search.request.objective, 40),
-        String(e.search.response.result_count),
+        truncate(e.search?.request.objective ?? null, 40),
+        e.search ? String(e.search.response.result_count) : '-',
         e.duration_ms !== null ? `${e.duration_ms} ms` : '-',
         new Date(e.occurred_at).toLocaleString(),
       ])
