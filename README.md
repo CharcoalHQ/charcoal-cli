@@ -31,6 +31,7 @@ charcoal whoami    # verify the active user and org
 | `charcoal docs` | Manage documents (`upload`, `get`) |
 | `charcoal namespaces` | Manage namespaces |
 | `charcoal search` | Search documents in a namespace |
+| `charcoal usage` | View usage events (`list`, `get`) |
 
 Run any command with `--help` for details on its options.
 

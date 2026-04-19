@@ -20,6 +20,8 @@ import docsUpload from './commands/docs/upload.js';
 import docsGet from './commands/docs/get.js';
 import search from './commands/search.js';
 import namespacesListCommand from './commands/namespaces.js';
+import usageList from './commands/usage/list.js';
+import usageGet from './commands/usage/get.js';
 import { outputError } from './output.js';
 
 try {
@@ -55,6 +57,12 @@ try {
       yargs
         .command(namespacesListCommand)
         .demandCommand(1, 'Please specify a namespaces subcommand')
+    )
+    .command('usage', 'View usage events', (yargs) =>
+      yargs
+        .command(usageList)
+        .command(usageGet)
+        .demandCommand(1, 'Please specify a usage subcommand')
     )
     .demandCommand(1)
     .strict()
