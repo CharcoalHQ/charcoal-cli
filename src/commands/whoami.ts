@@ -1,7 +1,7 @@
 import type { CommandModule } from 'yargs';
 
 import { getActiveOrg, requireCredentials } from '../auth/credentials.js';
-import { API_BASE_URL, CHARCOAL_ENV } from '../constants.js';
+import { API_BASE_URL, API_BASE_URL_OVERRIDDEN, CHARCOAL_ENV } from '../constants.js';
 
 const command: CommandModule = {
   command: 'whoami',
@@ -19,7 +19,8 @@ const command: CommandModule = {
       : '(set)';
     console.log(`API Key:      ${keyDisplay}`);
     console.log(`Env:          ${CHARCOAL_ENV}`);
-    console.log(`API URL:      ${API_BASE_URL}`);
+    const apiUrlSuffix = API_BASE_URL_OVERRIDDEN ? ' (CHARCOAL_API_URL override)' : '';
+    console.log(`API URL:      ${API_BASE_URL}${apiUrlSuffix}`);
   },
 };
 

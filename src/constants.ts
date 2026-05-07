@@ -7,10 +7,16 @@ if (rawEnv !== "dev" && rawEnv !== "prod") {
 
 export const CHARCOAL_ENV = rawEnv;
 
-export const API_BASE_URL =
+const DEFAULT_API_BASE_URL =
   CHARCOAL_ENV === "dev"
     ? "http://localhost:3000"
     : "https://api.withcharcoal.com";
+
+const apiUrlOverride = process.env.CHARCOAL_API_URL?.trim();
+
+export const API_BASE_URL = apiUrlOverride || DEFAULT_API_BASE_URL;
+
+export const API_BASE_URL_OVERRIDDEN = Boolean(apiUrlOverride);
 
 export const WORKOS_CLIENT_ID =
   CHARCOAL_ENV === "dev"
