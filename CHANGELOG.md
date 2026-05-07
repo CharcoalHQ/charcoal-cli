@@ -1,5 +1,11 @@
 # @charcoalhq/cli
 
+## 0.1.1
+
+### Patch Changes
+
+- 734ad67: Add `CHARCOAL_API_URL` to override just the API endpoint (e.g. a local backend) without flipping `CHARCOAL_ENV` and switching WorkOS client and credentials file.
+
 ## 0.1.0
 
 ### Minor Changes
