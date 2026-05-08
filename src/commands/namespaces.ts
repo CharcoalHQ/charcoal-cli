@@ -1,9 +1,9 @@
 import type { CommandModule } from 'yargs';
 
 import { createApiClient } from '../api/client.js';
-import { requireCredentials } from '../auth/credentials.js';
+import { getApiKey, requireCredentials } from '../auth/credentials.js';
 import { getOrgScopedToken } from '../auth/token_refresh.js';
-import { outputTable } from '../output.js';
+import { outputJson, outputTable } from '../output.js';
 
 interface NamespaceStats {
   id: string;
@@ -14,6 +14,14 @@ interface NamespaceStats {
   updated_at: string;
 }
 
+interface PublicNamespace {
+  id: string;
+  name: string;
+  created_at: string;
+  updated_at: string;
+  attributes_schema?: Record<string, unknown>;
+}
+
 function formatBytes(bytes: number): string {
   if (bytes === 0) return '0 B';
   const units = ['B', 'KB', 'MB', 'GB'];
@@ -22,7 +30,7 @@ function formatBytes(bytes: number): string {
   return `${value.toFixed(i === 0 ? 0 : 1)} ${units[i]}`;
 }
 
-const listCommand: CommandModule = {
+export const listCommand: CommandModule = {
   command: 'list',
   describe: 'List namespaces',
   handler: async () => {
@@ -45,6 +53,34 @@ const listCommand: CommandModule = {
         new Date(ns.updated_at).toLocaleDateString(),
       ])
     );
+  },
+};
+
+interface SchemaArgs {
+  namespace: string;
+}
+
+export const schemaCommand: CommandModule<object, SchemaArgs> = {
+  command: 'schema',
+  describe: 'Get the attribute schema for a namespace',
+  builder: {
+    namespace: {
+      type: 'string',
+      describe: 'Namespace name',
+      demandOption: true,
+    },
+  },
+  handler: async (argv) => {
+    const apiKey = getApiKey();
+    const client = createApiClient(() => apiKey);
+    const { results } = await client.get<{ results: PublicNamespace[] }>('/v1/namespaces');
+
+    const ns = results.find((n) => n.name === argv.namespace);
+    if (!ns) {
+      throw new Error(`Namespace "${argv.namespace}" not found.`);
+    }
+
+    outputJson(ns.attributes_schema ?? {});
   },
 };
 

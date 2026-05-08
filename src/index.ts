@@ -19,7 +19,7 @@ import keysSet from './commands/keys/set.js';
 import docsUpload from './commands/docs/upload.js';
 import docsGet from './commands/docs/get.js';
 import search from './commands/search.js';
-import namespacesListCommand from './commands/namespaces.js';
+import { listCommand as namespacesListCommand, schemaCommand as namespacesSchemaCommand } from './commands/namespaces.js';
 import usageList from './commands/usage/list.js';
 import usageGet from './commands/usage/get.js';
 import { outputError } from './output.js';
@@ -56,6 +56,7 @@ try {
     .command('namespaces', 'Manage namespaces', (yargs) =>
       yargs
         .command(namespacesListCommand)
+        .command(namespacesSchemaCommand)
         .demandCommand(1, 'Please specify a namespaces subcommand')
     )
     .command('usage', 'View usage events', (yargs) =>
