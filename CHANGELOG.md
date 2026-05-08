@@ -1,5 +1,11 @@
 # @charcoalhq/cli
 
+## 0.1.2
+
+### Patch Changes
+
+- 609c469: Add `charcoal namespaces schema --namespace <name>` to print a namespace's attribute schema as JSON.
+
 ## 0.1.1
 
 ### Patch Changes
