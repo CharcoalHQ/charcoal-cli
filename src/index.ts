@@ -18,6 +18,7 @@ import keysDelete from './commands/keys/delete.js';
 import keysSet from './commands/keys/set.js';
 import docsUpload from './commands/docs/upload.js';
 import docsGet from './commands/docs/get.js';
+import docsRandom from './commands/docs/random.js';
 import search from './commands/search.js';
 import { listCommand as namespacesListCommand, schemaCommand as namespacesSchemaCommand } from './commands/namespaces.js';
 import usageList from './commands/usage/list.js';
@@ -50,6 +51,7 @@ try {
       yargs
         .command(docsUpload)
         .command(docsGet)
+        .command(docsRandom)
         .demandCommand(1, 'Please specify a docs subcommand')
     )
     .command(search)
