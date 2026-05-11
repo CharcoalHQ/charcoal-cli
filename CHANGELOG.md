@@ -1,5 +1,11 @@
 # @charcoalhq/cli
 
+## 0.1.3
+
+### Patch Changes
+
+- d1f7d8d: Add `charcoal docs random --namespace <name>` to fetch a random document from a namespace.
+
 ## 0.1.2
 
 ### Patch Changes
